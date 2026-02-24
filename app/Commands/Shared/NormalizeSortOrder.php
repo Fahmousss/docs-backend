@@ -21,13 +21,9 @@ final class NormalizeSortOrder
             return $next($payload);
         }
 
-        if (! isset($payload->model_class) || ! is_subclass_of($payload->model_class, Model::class)) {
-            throw new InvalidArgumentException('Payload must contain a valid Eloquent model_class.');
-        }
+        throw_if(! isset($payload->model_class) || ! is_subclass_of($payload->model_class, Model::class), InvalidArgumentException::class, 'Payload must contain a valid Eloquent model_class.');
 
-        if (! isset($payload->parent_id) || ! isset($payload->parent_field)) {
-            throw new InvalidArgumentException('Payload must contain parent_id and parent_field.');
-        }
+        throw_if(! isset($payload->parent_id) || ! isset($payload->parent_field), InvalidArgumentException::class, 'Payload must contain parent_id and parent_field.');
 
         /** @var Model $model */
         $model = new $payload->model_class;

@@ -6,8 +6,9 @@ namespace App\Http\Controllers\Api\V1\Product;
 
 use App\DTOs\Product\ProductData;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Product\StoreProductRequest;
-use App\Http\Requests\Product\UpdateProductRequest;
+use App\Http\Requests\Api\V1\Product\StoreProductRequest;
+use App\Http\Requests\Api\V1\Product\UpdateProductRequest;
+use App\Http\Resources\Product\ProductResource;
 use App\Processes\Product\CreateProductProcess;
 use App\Processes\Product\DeleteProductProcess;
 use App\Processes\Product\UpdateProductProcess;
@@ -23,18 +24,19 @@ final class ProductController extends Controller
     public function __construct(
         private readonly CreateProductProcess $createProductProcess,
         private readonly UpdateProductProcess $updateProductProcess,
+        private readonly DeleteProductProcess $deleteProcess,
     ) {}
 
     public function index(GetAllProducts $query): JsonResponse
     {
-        return $this->success($query->get());
+        return $this->success(ProductResource::collection($query->get()));
     }
 
     public function show(int $id): JsonResponse
     {
         $query = new GetProductById($id);
 
-        return $this->success($query->get());
+        return $this->success(new ProductResource($query->get()));
     }
 
     public function store(
@@ -44,7 +46,7 @@ final class ProductController extends Controller
 
         $result = $this->createProductProcess->run($payload);
 
-        return $this->created($result->product);
+        return $this->created(new ProductResource($result->product), 'Product created successfully');
     }
 
     public function update(
@@ -59,17 +61,17 @@ final class ProductController extends Controller
 
         $result = $this->updateProductProcess->run($payload);
 
-        return $this->success($result->product);
+        return $this->success(new ProductResource($result->product), 'Product updated successfully');
     }
 
-    public function destroy(int $id, DeleteProductProcess $process): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
         $payload = (object) [
             'id' => $id,
             'product_id' => $id, // Required by ValidateProductExists
         ];
 
-        $process->run($payload);
+        $this->deleteProcess->run($payload);
 
         return $this->noContent();
     }

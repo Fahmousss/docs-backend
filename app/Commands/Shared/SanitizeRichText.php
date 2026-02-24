@@ -8,10 +8,10 @@ use Closure;
 use HTMLPurifier;
 use HTMLPurifier_Config;
 
-final class SanitizeRichText
+final readonly class SanitizeRichText
 {
     public function __construct(
-        private readonly string $field = 'content'
+        private string $field = 'content'
     ) {}
 
     /**

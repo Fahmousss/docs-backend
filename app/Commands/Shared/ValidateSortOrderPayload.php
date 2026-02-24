@@ -26,9 +26,7 @@ final class ValidateSortOrderPayload
             ]
         );
 
-        if ($validator->fails()) {
-            throw new ValidationException($validator);
-        }
+        throw_if($validator->fails(), ValidationException::class, $validator);
 
         return $next($payload);
     }

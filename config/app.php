@@ -125,4 +125,5 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'log_api_requests' => env('LOG_API_REQUESTS', false),
 ];

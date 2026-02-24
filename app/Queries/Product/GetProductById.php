@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Queries\Product;
 
+use App\Exceptions\ModelNotFoundException;
 use App\Queries\Query;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use stdClass;
 
@@ -22,7 +22,7 @@ final class GetProductById extends Query
             ->first();
 
         if (! $product) {
-            throw (new ModelNotFoundException)->setModel('Product', [$this->id]);
+            throw (new ModelNotFoundException)->setModel('Product', [$this->id], sprintf('Product with ID %d not found.', $this->id));
         }
 
         return $product;

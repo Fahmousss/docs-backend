@@ -14,7 +14,7 @@ final class CreateProduct
      */
     public function handle(object $payload, Closure $next): mixed
     {
-        $product = Product::create([
+        $product = Product::query()->create([
             'name' => $payload->name,
         ]);
 
