@@ -32,6 +32,9 @@ Route::middleware(['auth:sanctum', 'throttle:authenticated'])->group(function ()
     Route::post('email/resend', [AuthController::class, 'resendVerificationEmail'])
         ->middleware('throttle:6,1')
         ->name('verification.send');
+
+    // Products
+    Route::apiResource('products', \App\Http\Controllers\Api\V1\Product\ProductController::class);
 });
 
 // Password reset routes (public with rate limiting)
