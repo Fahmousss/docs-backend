@@ -7,6 +7,7 @@ namespace App\Http\Resources\Product;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Carbon;
 
 /**
  * @mixin Product
@@ -19,10 +20,10 @@ final class ProductResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => (int) $this->id,
-            'name' => (string) $this->name,
-            'created_at' => isset($this->created_at) ? (string) $this->created_at : null,
-            'updated_at' => isset($this->updated_at) ? (string) $this->updated_at : null,
+            'id'         => (string) $this->id,
+            'name'       => (string) $this->name,
+            'created_at' => $this->created_at instanceof Carbon ? $this->created_at->toIso8601String() : ($this->created_at !== null ? (string) $this->created_at : null),
+            'updated_at' => $this->updated_at instanceof Carbon ? $this->updated_at->toIso8601String() : ($this->updated_at !== null ? (string) $this->updated_at : null),
         ];
     }
 }

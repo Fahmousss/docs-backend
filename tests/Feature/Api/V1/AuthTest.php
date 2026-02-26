@@ -14,7 +14,7 @@ describe('Login', function (): void {
         ]);
 
         $response = $this->postJson('/api/v1/login', [
-            'email' => $user->email,
+            'email'    => $user->email,
             'password' => 'password123',
         ]);
 
@@ -39,7 +39,7 @@ describe('Login', function (): void {
         ]);
 
         $response = $this->postJson('/api/v1/login', [
-            'email' => $user->email,
+            'email'    => $user->email,
             'password' => 'wrongpassword',
         ]);
 
@@ -48,7 +48,7 @@ describe('Login', function (): void {
 
     it('fails login with non-existent user', function (): void {
         $response = $this->postJson('/api/v1/login', [
-            'email' => 'nonexistent@example.com',
+            'email'    => 'nonexistent@example.com',
             'password' => 'password123',
         ]);
 
@@ -58,7 +58,7 @@ describe('Login', function (): void {
 
 describe('Logout', function (): void {
     it('logs out authenticated user', function (): void {
-        $user = User::factory()->create();
+        $user  = User::factory()->create();
         $token = $user->createToken('test-token')->plainTextToken;
 
         $response = $this->withHeader('Authorization', 'Bearer '.$token)
@@ -80,7 +80,7 @@ describe('Logout', function (): void {
 
 describe('Me', function (): void {
     it('returns authenticated user data', function (): void {
-        $user = User::factory()->create();
+        $user  = User::factory()->create();
         $token = $user->createToken('test-token')->plainTextToken;
 
         $response = $this->withHeader('Authorization', 'Bearer '.$token)
@@ -94,8 +94,8 @@ describe('Me', function (): void {
             ])
             ->assertJson([
                 'success' => true,
-                'data' => [
-                    'id' => $user->id,
+                'data'    => [
+                    'id'    => $user->id,
                     'email' => $user->email,
                 ],
             ]);

@@ -19,7 +19,7 @@ final class LoginRequest extends FormRequest
     }
 
     /**
-     * @return array<string, ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
@@ -29,7 +29,7 @@ final class LoginRequest extends FormRequest
              */
             'email' => ['required', 'string', 'email'],
             /**
-             * @example "test123"
+             * @example "password"
              */
             'password' => ['required', 'string'],
         ];

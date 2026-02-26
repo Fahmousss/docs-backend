@@ -16,7 +16,7 @@ final class MeController extends ApiController
 {
     public function __invoke(Request $request): JsonResponse
     {
-        $user = (new GetCurrentUser($request))->get();
+        $user = (new GetCurrentUser($request))->execute();
 
         return $this->success(new UserResource($user));
     }

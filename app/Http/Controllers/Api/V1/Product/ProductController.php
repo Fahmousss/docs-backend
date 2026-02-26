@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\V1\Product;
 
 use App\DTOs\Product\ProductData;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Api\V1\Product\StoreProductRequest;
 use App\Http\Requests\Api\V1\Product\UpdateProductRequest;
 use App\Http\Resources\Product\ProductResource;
@@ -14,29 +14,25 @@ use App\Processes\Product\DeleteProductProcess;
 use App\Processes\Product\UpdateProductProcess;
 use App\Queries\Product\GetAllProducts;
 use App\Queries\Product\GetProductById;
-use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 
-final class ProductController extends Controller
+final class ProductController extends ApiController
 {
-    use ApiResponse;
-
     public function __construct(
         private readonly CreateProductProcess $createProductProcess,
         private readonly UpdateProductProcess $updateProductProcess,
         private readonly DeleteProductProcess $deleteProcess,
+        private readonly GetAllProducts $getAllProducts,
     ) {}
 
-    public function index(GetAllProducts $query): JsonResponse
+    public function index(): JsonResponse
     {
-        return $this->success(ProductResource::collection($query->get()));
+        return $this->success(ProductResource::collection($this->getAllProducts->execute()), 'Products retrieved successfully');
     }
 
-    public function show(int $id): JsonResponse
+    public function show(string $id): JsonResponse
     {
-        $query = new GetProductById($id);
-
-        return $this->success(new ProductResource($query->get()));
+        return $this->success(new ProductResource((new GetProductById($id))->execute()), 'Product retrieved successfully');
     }
 
     public function store(
@@ -51,11 +47,11 @@ final class ProductController extends Controller
 
     public function update(
         UpdateProductRequest $request,
-        int $id,
+        string $id,
     ): JsonResponse {
         $payload = ProductData::from([
             ...$request->validated(),
-            'id' => $id,
+            'id'         => $id,
             'product_id' => $id, // Required by ValidateProductExists
         ]);
 
@@ -64,10 +60,10 @@ final class ProductController extends Controller
         return $this->success(new ProductResource($result->product), 'Product updated successfully');
     }
 
-    public function destroy(int $id): JsonResponse
+    public function destroy(string $id): JsonResponse
     {
         $payload = (object) [
-            'id' => $id,
+            'id'         => $id,
             'product_id' => $id, // Required by ValidateProductExists
         ];
 

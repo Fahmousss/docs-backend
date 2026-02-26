@@ -9,8 +9,8 @@ use Spatie\LaravelData\Data;
 final class ProductData extends Data
 {
     public function __construct(
-        public ?int $id,
+        public ?string $id,
         public string $name,
-        public ?int $product_id = null,
+        public ?string $product_id = null,
     ) {}
 }

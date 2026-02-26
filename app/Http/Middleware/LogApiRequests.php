@@ -30,14 +30,14 @@ final class LogApiRequests
         // Only log if enabled via config
         if (config('app.log_api_requests', false)) {
             Log::info('API Request', [
-                'timestamp' => now()->toIso8601String(),
-                'method' => $request->method(),
-                'url' => $request->fullUrl(),
-                'ip' => $request->ip(),
-                'user_id' => $request->user()?->id,
-                'status' => $response->getStatusCode(),
+                'timestamp'   => now()->toIso8601String(),
+                'method'      => $request->method(),
+                'url'         => $request->fullUrl(),
+                'ip'          => $request->ip(),
+                'user_id'     => $request->user()?->id,
+                'status'      => $response->getStatusCode(),
                 'duration_ms' => $duration,
-                'user_agent' => $request->userAgent(),
+                'user_agent'  => $request->userAgent(),
             ]);
         }
 

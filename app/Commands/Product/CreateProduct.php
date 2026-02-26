@@ -19,7 +19,7 @@ final class CreateProduct
         ]);
 
         $payload->product = $product;
-        $payload->id = $product->id;
+        $payload->id      = $product->id;
 
         return $next($payload);
     }

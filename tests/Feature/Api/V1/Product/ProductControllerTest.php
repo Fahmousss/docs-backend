@@ -73,7 +73,7 @@ it('can update a product', function (): void {
         ->assertJsonPath('data.name', 'New Name');
 
     assertDatabaseHas('products', [
-        'id' => $product->id,
+        'id'   => $product->id,
         'name' => 'New Name',
     ]);
 });
@@ -85,7 +85,7 @@ it('can update a product while keeping same name', function (): void {
         ->assertSuccessful();
 
     assertDatabaseHas('products', [
-        'id' => $product->id,
+        'id'   => $product->id,
         'name' => 'Same Name',
     ]);
 });

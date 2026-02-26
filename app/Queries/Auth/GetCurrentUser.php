@@ -11,7 +11,7 @@ final class GetCurrentUser extends Query
 {
     public function __construct(private readonly Request $request) {}
 
-    public function get(): mixed
+    public function execute(): mixed
     {
         return $this->request->user();
     }

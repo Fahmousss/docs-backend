@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 final class GetAllProducts extends Query
 {
-    public function get(): Collection
+    public function execute(): Collection
     {
         return DB::table('products')
             ->orderBy('name')

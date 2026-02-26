@@ -6,5 +6,5 @@ namespace App\Queries;
 
 abstract class Query
 {
-    abstract public function get(): mixed;
+    abstract public function execute(): mixed;
 }

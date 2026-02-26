@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\MeController;
+use App\Http\Controllers\Api\V1\Documentation\DocumentationController;
 use App\Http\Controllers\Api\V1\Product\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,4 +30,10 @@ Route::middleware(['auth:sanctum', 'throttle:authenticated', 'log.api'])->group(
 
     // Products
     Route::apiResource('products', ProductController::class)->names('api.v1.products');
+
+    // Documentation
+    Route::prefix('products/{productId}/docs')->group(function (): void {
+        Route::get('/', [DocumentationController::class, 'show'])->name('api.v1.products.docs.show');
+        Route::put('/', [DocumentationController::class, 'update'])->name('api.v1.products.docs.update');
+    });
 });

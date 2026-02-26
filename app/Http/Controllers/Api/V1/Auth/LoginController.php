@@ -32,7 +32,7 @@ final class LoginController extends ApiController
         $payload = $this->loginProcess->run(LoginData::from($request));
 
         return $this->success([
-            'user' => new UserResource($payload->user),
+            'user'  => new UserResource($payload->user),
             'token' => $payload->token,
         ], 'Login successful');
     }

@@ -14,14 +14,14 @@ return [
     */
     'versions' => [
         'v1' => [
-            'routes' => base_path('routes/api/v1.php'),
-            'middleware' => [],
-            'status' => 'active',
+            'routes'        => base_path('routes/api/v1.php'),
+            'middleware'    => [],
+            'status'        => 'active',
             'deprecated_at' => null,
-            'sunset_at' => null,
-            'successor' => null,
+            'sunset_at'     => null,
+            'successor'     => null,
             'documentation' => null,
-            'rate_limit' => null,
+            'rate_limit'    => null,
         ],
     ],
 
@@ -43,7 +43,7 @@ return [
     */
     'strategies' => [
         'uri' => [
-            'prefix' => 'api',           // API prefix for versioned routes
+            'prefix'  => 'api',           // API prefix for versioned routes
             'pattern' => 'v{version}',   // v1, v2, etc.
         ],
         'header' => [
@@ -54,7 +54,7 @@ return [
         ],
         'accept' => [
             'pattern' => 'application/vnd.{vendor}.{version}+json',
-            'vendor' => env('API_VENDOR', 'api'),
+            'vendor'  => env('API_VENDOR', 'api'),
         ],
     ],
 
@@ -79,8 +79,8 @@ return [
     |
     */
     'fallback' => [
-        'enabled' => true,
-        'strategy' => 'previous',  // 'previous', 'latest', 'none'
+        'enabled'    => true,
+        'strategy'   => 'previous',  // 'previous', 'latest', 'none'
         'add_header' => true,      // Add X-API-Version-Fallback header
     ],
 
@@ -93,8 +93,8 @@ return [
     |
     */
     'sunset' => [
-        'action' => 'reject',      // 'reject', 'warn', 'allow'
-        'status_code' => 410,      // HTTP Gone
+        'action'                => 'reject',      // 'reject', 'warn', 'allow'
+        'status_code'           => 410,      // HTTP Gone
         'include_migration_url' => true,
     ],
 
@@ -109,10 +109,10 @@ return [
     'headers' => [
         'enabled' => true,
         'include' => [
-            'version' => true,           // X-API-Version
-            'status' => true,            // X-API-Version-Status
-            'deprecation' => true,       // Deprecation (RFC 8594)
-            'sunset' => true,            // Sunset (RFC 7231)
+            'version'        => true,           // X-API-Version
+            'status'         => true,            // X-API-Version-Status
+            'deprecation'    => true,       // Deprecation (RFC 8594)
+            'sunset'         => true,            // Sunset (RFC 7231)
             'successor_link' => true,    // Link rel="successor-version"
         ],
     ],
@@ -126,9 +126,9 @@ return [
     |
     */
     'tracking' => [
-        'enabled' => env('API_VERSION_TRACKING', false),
-        'driver' => 'database',      // 'database', 'redis', 'null'
-        'table' => 'api_version_stats',
+        'enabled'   => env('API_VERSION_TRACKING', false),
+        'driver'    => 'database',      // 'database', 'redis', 'null'
+        'table'     => 'api_version_stats',
         'aggregate' => 'hourly',     // 'realtime', 'hourly', 'daily'
     ],
 
@@ -141,13 +141,13 @@ return [
     |
     */
     'notifications' => [
-        'enabled' => false,
-        'channels' => ['mail'],
+        'enabled'    => false,
+        'channels'   => ['mail'],
         'recipients' => [],
-        'events' => [
+        'events'     => [
             'approaching_deprecation' => [7, 1],  // days before
-            'approaching_sunset' => [30, 7, 1],
-            'high_deprecated_usage' => 50,        // percentage threshold
+            'approaching_sunset'      => [30, 7, 1],
+            'high_deprecated_usage'   => 50,        // percentage threshold
         ],
     ],
 
@@ -160,7 +160,7 @@ return [
     |
     */
     'documentation' => [
-        'base_url' => env('API_DOCS_URL'),
+        'base_url'         => env('API_DOCS_URL'),
         'migration_guides' => [
             // 'v1' => 'https://docs.example.com/api/migration/v1-to-v2',
         ],
