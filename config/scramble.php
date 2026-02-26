@@ -93,7 +93,7 @@ return [
      */
     'servers' => null,
 
-    /**
+    /*
      * Determines how Scramble stores the descriptions of enum cases.
      * Available options:
      * - 'description' – Case descriptions are stored as the enum schema's description using table formatting.
@@ -104,7 +104,7 @@ return [
      */
     'enum_cases_description_strategy' => 'description',
 
-    /**
+    /*
      * Determines how Scramble stores the names of enum cases.
      * Available options:
      * - 'names' – Case names are stored in the `x-enumNames` enum schema extension.
@@ -113,7 +113,7 @@ return [
      */
     'enum_cases_names_strategy' => false,
 
-    /**
+    /*
      * When Scramble encounters deep objects in query parameters, it flattens the parameters so the generated
      * OpenAPI document correctly describes the API. Flattening deep query parameters is relevant until
      * OpenAPI 3.2 is released and query string structure can be described properly.

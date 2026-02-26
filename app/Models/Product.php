@@ -38,11 +38,11 @@ final class Product extends Model
     }
 
     /**
-     * @return HasMany<Showcase, $this>
+     * @return HasMany<ShowcaseItem, $this>
      */
-    public function showcases(): HasMany
+    public function showcaseItems(): HasMany
     {
-        return $this->hasMany(Showcase::class);
+        return $this->hasMany(ShowcaseItem::class)->orderBy('sort_order');
     }
 
     /**

@@ -14,7 +14,7 @@ use Spatie\LaravelData\DataCollection;
 final class DocumentationPayload extends Data
 {
     /**
-     * @param  DataCollection<int, SectionData>  $sections
+     * @param DataCollection<int, SectionData> $sections
      */
     public function __construct(
         public readonly string $productId,

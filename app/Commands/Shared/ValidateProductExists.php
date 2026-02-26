@@ -14,7 +14,7 @@ final class ValidateProductExists
     /**
      * Handle the command.
      *
-     * @param  object  $payload  Must have a product_id property
+     * @param object $payload Must have a product_id property
      *
      * @throws Throwable
      */

@@ -34,7 +34,7 @@ trait ApiResponse
     }
 
     /**
-     * @param  array<string, mixed>  $errors
+     * @param array<string, mixed> $errors
      */
     protected function error(
         string $message = 'Error',
@@ -69,7 +69,7 @@ trait ApiResponse
     }
 
     /**
-     * @param  array<string, mixed>  $errors
+     * @param array<string, mixed> $errors
      */
     protected function validationError(array $errors, string $message = 'Validation failed'): JsonResponse
     {

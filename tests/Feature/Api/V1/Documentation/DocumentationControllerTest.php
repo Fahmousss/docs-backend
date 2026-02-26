@@ -14,11 +14,13 @@ use function Pest\Laravel\putJson;
 uses(RefreshDatabase::class);
 
 beforeEach(function (): void {
-    $this->user = User::factory()->create();
-    actingAs($this->user);
+    /** @var User $user */
+    $user = User::factory()->create();
+    actingAs($user);
 });
 
 it('updates documentation with nested payload via bulk upsert', function (): void {
+    /** @var Product $product */
     $product = Product::factory()->create();
 
     $sectionId = (string) Str::uuid();
@@ -65,7 +67,7 @@ it('updates documentation with nested payload via bulk upsert', function (): voi
         ->assertJsonPath('data.items.0.submenu_name', 'Welcome');
 });
 
-it('deletes removed items on subsequent updates', function (): void {
+it('performs a partial update without deleting missing items', function (): void {
     $product = Product::factory()->create();
 
     // First create tree
@@ -92,15 +94,16 @@ it('deletes removed items on subsequent updates', function (): void {
         ]],
     ])->assertOk();
 
-    // Now remove all by sending empty sections
+    // Now send empty sections
     putJson(sprintf('/api/v1/products/%s/docs', $product->id), [
         'sections' => [],
     ])->assertOk();
 
-    // Expect GET to return empty items
+    // Expect GET to still return the items since it's a partial update
     getJson(sprintf('/api/v1/products/%s/docs', $product->id))
         ->assertOk()
-        ->assertJsonCount(0, 'data.items');
+        ->assertJsonCount(1, 'data.items')
+        ->assertJsonPath('data.items.0.section_name', 'A');
 });
 
 it('returns 422 when sections key is missing entirely', function (): void {

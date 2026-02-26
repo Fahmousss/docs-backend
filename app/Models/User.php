@@ -12,13 +12,13 @@ use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
- * @property int $id
- * @property string $name
- * @property string $email
- * @property Carbon|null $email_verified_at
- * @property string $password
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
+ * @property int         $id
+ * @property string      $name
+ * @property string      $email
+ * @property null|Carbon $email_verified_at
+ * @property string      $password
+ * @property null|Carbon $created_at
+ * @property null|Carbon $updated_at
  */
 final class User extends Authenticatable
 {

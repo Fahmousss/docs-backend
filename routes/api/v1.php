@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\MeController;
 use App\Http\Controllers\Api\V1\Documentation\DocumentationController;
 use App\Http\Controllers\Api\V1\Product\ProductController;
+use App\Http\Controllers\Api\V1\Showcase\ShowcaseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,5 +36,11 @@ Route::middleware(['auth:sanctum', 'throttle:authenticated', 'log.api'])->group(
     Route::prefix('products/{productId}/docs')->group(function (): void {
         Route::get('/', [DocumentationController::class, 'show'])->name('api.v1.products.docs.show');
         Route::put('/', [DocumentationController::class, 'update'])->name('api.v1.products.docs.update');
+    });
+
+    // Showcase
+    Route::prefix('products/{productId}/showcase')->group(function (): void {
+        Route::get('/', [ShowcaseController::class, 'show'])->name('api.v1.products.showcase.show');
+        Route::put('/', [ShowcaseController::class, 'update'])->name('api.v1.products.showcase.update');
     });
 });

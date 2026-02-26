@@ -11,7 +11,7 @@ use Spatie\LaravelData\DataCollection;
 final class SectionData extends Data
 {
     /**
-     * @param  DataCollection<int, MenuData>  $menus
+     * @param DataCollection<int, MenuData> $menus
      */
     public function __construct(
         public readonly string $id,

@@ -13,7 +13,7 @@ use Illuminate\Foundation\Http\FormRequest;
 final class StoreProductRequest extends FormRequest
 {
     /**
-     * @return array<string, ValidationRule|array<mixed>|string>
+     * @return array<string, array<mixed>|string|ValidationRule>
      */
     public function rules(): array
     {

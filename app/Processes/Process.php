@@ -16,7 +16,7 @@ abstract class Process
     /**
      * Execute the pipeline with the provided payload.
      *
-     * @param  object  $payload  Usually a spatie/laravel-data DTO
+     * @param object $payload Usually a spatie/laravel-data DTO
      */
     final public function run(object $payload): mixed
     {

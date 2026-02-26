@@ -11,7 +11,7 @@ use Spatie\LaravelData\DataCollection;
 final class MenuData extends Data
 {
     /**
-     * @param  DataCollection<int, SubmenuData>  $submenus
+     * @param DataCollection<int, SubmenuData> $submenus
      */
     public function __construct(
         public readonly string $id,

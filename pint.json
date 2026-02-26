@@ -59,6 +59,7 @@
         "ordered_interfaces": true,
         "ordered_traits": true,
         "protected_to_private": true,
+        "phpdoc_align": true,
         "phpdoc_add_missing_param_annotation": true,
         "phpdoc_indent": true,
         "phpdoc_line_span": {
@@ -66,6 +67,13 @@
             "method": "multi",
             "const": "multi"
         },
+        "phpdoc_order": true,
+        "phpdoc_separation": true,
+        "phpdoc_single_line_var_spacing": true,
+        "phpdoc_to_comment": true,
+        "phpdoc_trim": true,
+        "phpdoc_types": true,
+        "phpdoc_types_order": true,
         "self_accessor": true,
         "self_static_accessor": true,
         "strict_comparison": true,

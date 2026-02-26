@@ -19,16 +19,16 @@ final class LoginRequest extends FormRequest
     }
 
     /**
-     * @return array<string, ValidationRule|array|string>
+     * @return array<string, array|string|ValidationRule>
      */
     public function rules(): array
     {
         return [
-            /**
+            /*
              * @example "test@mail.com"
              */
             'email' => ['required', 'string', 'email'],
-            /**
+            /*
              * @example "password"
              */
             'password' => ['required', 'string'],

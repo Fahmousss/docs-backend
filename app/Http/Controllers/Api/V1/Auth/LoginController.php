@@ -23,7 +23,7 @@ final class LoginController extends ApiController
     /**
      * @unauthenticated
      *
-     * @param  LoginRequest  $request  Email and password
+     * @param LoginRequest $request Email and password
      *
      * @throws AuthenticationException
      */
