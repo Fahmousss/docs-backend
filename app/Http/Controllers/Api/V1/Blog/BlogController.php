@@ -21,6 +21,7 @@ final class BlogController extends ApiController
     /**
      * Get product blog sections
      *
+     * @unauthenticated
      * @response array{ success: bool, message: string, data: array{ sections: BlogResource[] } }
      */
     public function show(string $productId): JsonResponse

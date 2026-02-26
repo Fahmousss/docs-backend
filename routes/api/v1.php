@@ -26,6 +26,12 @@ Route::middleware('throttle:auth')->group(function (): void {
     Route::post('login', LoginController::class)->name('api.v1.login');
 });
 
+// Public routes without authentication
+Route::get('products/{productId}/docs', [DocumentationController::class, 'show'])->name('api.v1.products.docs.show');
+Route::get('products/{productId}/showcase', [ShowcaseController::class, 'show'])->name('api.v1.products.showcase.show');
+Route::get('products/{productId}/preferences', [PreferencesController::class, 'show'])->name('api.v1.products.preferences.show');
+Route::get('products/{productId}/blog', [BlogController::class, 'show'])->name('api.v1.products.blog.show');
+
 // Protected routes with authenticated rate limiter (120/min)
 Route::middleware(['auth:sanctum', 'throttle:authenticated', 'log.api'])->group(function (): void {
     Route::post('logout', LogoutController::class)->name('api.v1.logout');
@@ -36,25 +42,21 @@ Route::middleware(['auth:sanctum', 'throttle:authenticated', 'log.api'])->group(
 
     // Documentation
     Route::prefix('products/{productId}/docs')->group(function (): void {
-        Route::get('/', [DocumentationController::class, 'show'])->name('api.v1.products.docs.show');
         Route::put('/', [DocumentationController::class, 'update'])->name('api.v1.products.docs.update');
     });
 
     // Showcase
     Route::prefix('products/{productId}/showcase')->group(function (): void {
-        Route::get('/', [ShowcaseController::class, 'show'])->name('api.v1.products.showcase.show');
         Route::put('/', [ShowcaseController::class, 'update'])->name('api.v1.products.showcase.update');
     });
 
     // Preferences
     Route::prefix('products/{productId}/preferences')->group(function (): void {
-        Route::get('/', [PreferencesController::class, 'show'])->name('api.v1.products.preferences.show');
         Route::put('/', [PreferencesController::class, 'update'])->name('api.v1.products.preferences.update');
     });
 
     // Blog
     Route::prefix('products/{productId}/blog')->group(function (): void {
-        Route::get('/', [BlogController::class, 'show'])->name('api.v1.products.blog.show');
         Route::put('/', [BlogController::class, 'update'])->name('api.v1.products.blog.update');
     });
 });

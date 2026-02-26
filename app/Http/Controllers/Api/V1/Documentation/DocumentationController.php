@@ -21,6 +21,7 @@ final class DocumentationController extends ApiController
     /**
      * Get product documentation sections
      *
+     * @unauthenticated
      * @response array{ success: bool, message: string, data: array{ items: DocumentationResource[] } }
      */
     public function show(string $productId): JsonResponse

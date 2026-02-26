@@ -21,6 +21,7 @@ final class PreferencesController extends ApiController
     /**
      * Get product preferences sections
      *
+     * @unauthenticated
      * @response array{ success: bool, message: string, data: array{ items: PreferencesResource[] } }
      */
     public function show(string $productId): JsonResponse

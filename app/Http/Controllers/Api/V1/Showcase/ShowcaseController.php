@@ -21,6 +21,7 @@ final class ShowcaseController extends ApiController
     /**
      * Get product showcase sections
      *
+     * @unauthenticated
      * @response array{ success: bool, message: string, data: array{ items: ShowcaseResource[] } }
      */
     public function show(string $productId): JsonResponse
