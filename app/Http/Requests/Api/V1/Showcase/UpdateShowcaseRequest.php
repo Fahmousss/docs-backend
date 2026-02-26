@@ -19,7 +19,7 @@ final class UpdateShowcaseRequest extends FormRequest
     {
         return [
             'items'               => ['present', 'array'],
-            'items.*.id'          => ['required', 'uuid'],
+            'items.*.id'          => ['nullable', 'string', 'uuid'],
             'items.*.title'       => ['required', 'string', 'max:255'],
             'items.*.description' => ['nullable', 'string', 'max:255'],
             'items.*.mediaUrl'    => ['nullable', 'string', 'url', 'max:2048'],

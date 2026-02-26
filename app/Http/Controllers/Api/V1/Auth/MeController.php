@@ -14,6 +14,9 @@ use Illuminate\Http\Request;
 #[Group('Authentication')]
 final class MeController extends ApiController
 {
+    /**
+     * Get current user
+     */
     public function __invoke(Request $request): JsonResponse
     {
         $user = (new GetCurrentUser($request))->execute();

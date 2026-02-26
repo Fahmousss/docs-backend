@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\DTOs\Documentation;
+namespace App\DTOs\Preferences;
 
 use Spatie\LaravelData\Data;
 
-final class SubmenuData extends Data
+final class PreferenceItemData extends Data
 {
     public function __construct(
         public ?string $id,
-        public readonly string $name,
+        public readonly string $itemName,
         public ?string $content,
         public readonly int $sortOrder,
     ) {}

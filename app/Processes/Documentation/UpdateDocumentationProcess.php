@@ -7,6 +7,7 @@ namespace App\Processes\Documentation;
 use App\Commands\Documentation\BulkUpsertDocumentation;
 use App\Commands\Documentation\RefreshDocumentationView;
 use App\Commands\Documentation\SanitizeDocsContent;
+use App\Commands\Shared\AssignMissingUuids;
 use App\Processes\Process;
 
 final class UpdateDocumentationProcess extends Process
@@ -15,6 +16,7 @@ final class UpdateDocumentationProcess extends Process
      * @var array<int, class-string>
      */
     protected array $tasks = [
+        AssignMissingUuids::class,
         SanitizeDocsContent::class,
         BulkUpsertDocumentation::class,
         RefreshDocumentationView::class,

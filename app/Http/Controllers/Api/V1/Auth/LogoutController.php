@@ -17,6 +17,9 @@ final class LogoutController extends ApiController
         private readonly LogoutProcess $logoutProcess,
     ) {}
 
+    /**
+     * Logout
+     */
     public function __invoke(Request $request): JsonResponse
     {
         $this->logoutProcess->run($request);

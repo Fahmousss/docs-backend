@@ -25,16 +25,29 @@ final class ProductController extends ApiController
         private readonly GetAllProducts $getAllProducts,
     ) {}
 
+    /**
+     * Get all products
+     */
     public function index(): JsonResponse
     {
-        return $this->success(ProductResource::collection($this->getAllProducts->execute()), 'Products retrieved successfully');
+        $products = $this->getAllProducts->execute();
+
+        return $this->success(ProductResource::collection($products), 'Products retrieved successfully');
     }
 
+    /**
+     * Get product by id
+     */
     public function show(string $id): JsonResponse
     {
-        return $this->success(new ProductResource((new GetProductById($id))->execute()), 'Product retrieved successfully');
+        $product = (new GetProductById($id))->execute();
+
+        return $this->success(new ProductResource($product), 'Product retrieved successfully');
     }
 
+    /**
+     * Store product
+     */
     public function store(
         StoreProductRequest $request,
     ): JsonResponse {
@@ -45,6 +58,9 @@ final class ProductController extends ApiController
         return $this->created(new ProductResource($result->product), 'Product created successfully');
     }
 
+    /**
+     * Update product
+     */
     public function update(
         UpdateProductRequest $request,
         string $id,
@@ -55,11 +71,15 @@ final class ProductController extends ApiController
             'product_id' => $id, // Required by ValidateProductExists
         ]);
 
-        $result = $this->updateProductProcess->run($payload);
+        $result  = $this->updateProductProcess->run($payload);
+        $product = new ProductResource($result->product);
 
-        return $this->success(new ProductResource($result->product), 'Product updated successfully');
+        return $this->success($product, 'Product updated successfully');
     }
 
+    /**
+     * Delete product
+     */
     public function destroy(string $id): JsonResponse
     {
         $payload = (object) [

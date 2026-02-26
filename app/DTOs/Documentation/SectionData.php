@@ -14,7 +14,7 @@ final class SectionData extends Data
      * @param DataCollection<int, MenuData> $menus
      */
     public function __construct(
-        public readonly string $id,
+        public ?string $id,
         public readonly string $name,
         public readonly int $sortOrder,
         #[DataCollectionOf(MenuData::class)]

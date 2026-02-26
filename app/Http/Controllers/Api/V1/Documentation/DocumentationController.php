@@ -19,6 +19,8 @@ final class DocumentationController extends ApiController
     ) {}
 
     /**
+     * Get product documentation sections
+     *
      * @response array{ success: bool, message: string, data: array{ items: DocumentationResource[] } }
      */
     public function show(string $productId): JsonResponse
@@ -30,6 +32,9 @@ final class DocumentationController extends ApiController
         ], 'Documentation retrieved successfully');
     }
 
+    /**
+     * Update product documentation sections
+     */
     public function update(string $productId, UpdateDocumentationRequest $request): JsonResponse
     {
         $payload = DocumentationPayload::from([

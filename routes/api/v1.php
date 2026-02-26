@@ -5,7 +5,9 @@ declare(strict_types=1);
 use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\MeController;
+use App\Http\Controllers\Api\V1\Blog\BlogController;
 use App\Http\Controllers\Api\V1\Documentation\DocumentationController;
+use App\Http\Controllers\Api\V1\Preferences\PreferencesController;
 use App\Http\Controllers\Api\V1\Product\ProductController;
 use App\Http\Controllers\Api\V1\Showcase\ShowcaseController;
 use Illuminate\Support\Facades\Route;
@@ -42,5 +44,17 @@ Route::middleware(['auth:sanctum', 'throttle:authenticated', 'log.api'])->group(
     Route::prefix('products/{productId}/showcase')->group(function (): void {
         Route::get('/', [ShowcaseController::class, 'show'])->name('api.v1.products.showcase.show');
         Route::put('/', [ShowcaseController::class, 'update'])->name('api.v1.products.showcase.update');
+    });
+
+    // Preferences
+    Route::prefix('products/{productId}/preferences')->group(function (): void {
+        Route::get('/', [PreferencesController::class, 'show'])->name('api.v1.products.preferences.show');
+        Route::put('/', [PreferencesController::class, 'update'])->name('api.v1.products.preferences.update');
+    });
+
+    // Blog
+    Route::prefix('products/{productId}/blog')->group(function (): void {
+        Route::get('/', [BlogController::class, 'show'])->name('api.v1.products.blog.show');
+        Route::put('/', [BlogController::class, 'update'])->name('api.v1.products.blog.update');
     });
 });

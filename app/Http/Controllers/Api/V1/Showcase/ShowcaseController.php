@@ -19,6 +19,8 @@ final class ShowcaseController extends ApiController
     ) {}
 
     /**
+     * Get product showcase sections
+     *
      * @response array{ success: bool, message: string, data: array{ items: ShowcaseResource[] } }
      */
     public function show(string $productId): JsonResponse
@@ -30,6 +32,9 @@ final class ShowcaseController extends ApiController
         ], 'Showcase retrieved successfully');
     }
 
+    /**
+     * Update product showcase sections
+     */
     public function update(string $productId, UpdateShowcaseRequest $request): JsonResponse
     {
         $payload = ShowcasePayload::from([

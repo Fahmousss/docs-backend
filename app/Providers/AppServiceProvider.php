@@ -29,6 +29,7 @@ final class AppServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
         $this->configureScrambleAuthentication();
+        $this->configureScrambleApi();
     }
 
     /**
@@ -59,5 +60,43 @@ final class AppServiceProvider extends ServiceProvider
                     SecurityScheme::http('bearer')
                 );
             });
+    }
+
+    private function configureScrambleApi(): void
+    {
+        Scramble::configure()
+            ->expose(false);
+
+        Scramble::registerApi('v1', [
+            'api_path' => 'api/v1',
+            'info'     => [
+                'version'     => '1.0.0',
+                'description' => 'API v1 description for Scramble',
+            ],
+            'ui' => [
+                'title'        => 'API v1',
+                'theme'        => 'system',
+                'hide_try_it'  => true,
+                'hide_schemas' => true,
+            ],
+        ]);
+
+        /*
+         * To add a new API version, register it using Scramble::registerApi.
+         *
+         * Example for v2:
+         * Scramble::registerApi('v2', [
+         *     'api_path' => 'api/v2',
+         *     'info'     => [
+         *         'version'     => '2.0.0',
+         *         'description' => 'API v2 description for Scramble',
+         *     ],
+         *     'ui' => [
+         *         'title'        => 'API v2',
+         *         'theme'        => 'system',
+         *         'hide_schemas' => true,
+         *     ],
+         * ]);
+         */
     }
 }
