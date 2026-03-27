@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Queries\Documentation;
 
+use App\Queries\Query;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
-final readonly class GetProductDocumentation
+final class GetProductDocumentation extends Query
 {
     public function __construct(
         private string $productId

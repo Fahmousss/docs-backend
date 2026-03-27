@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Traits;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Symfony\Component\HttpFoundation\Response;
 
 trait ApiResponse
@@ -14,11 +15,22 @@ trait ApiResponse
         string $message = 'Success',
         int $code = Response::HTTP_OK
     ): JsonResponse {
+        if (isset($data['items']) && $data['items'] instanceof AnonymousResourceCollection) {
+            $pagination = [
+                'PageNumber'  => $data['items']->currentPage(),
+                'TotalPages'  => $data['items']->lastPage(),
+                'PageSize'    => $data['items']->perPage(),
+                'TotalCount'  => $data['items']->total(),
+                'HasPrevious' => (bool) $data['items']->previousPageUrl(),
+                'HasNext'     => (bool) $data['items']->nextPageUrl(),
+            ];
+        }
+
         return response()->json([
             'success' => true,
             'message' => $message,
             'data'    => $data,
-        ], $code);
+        ], $code)->header('X-Pagination', json_encode($pagination ?? []));
     }
 
     protected function created(

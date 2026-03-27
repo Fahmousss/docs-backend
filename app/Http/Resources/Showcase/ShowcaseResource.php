@@ -15,6 +15,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property string      $title
  * @property null|string $description
  * @property null|string $media_url
+ * @property null|string $publish_date
  * @property null|string $content
  * @property int         $sort_order
  */
@@ -26,13 +27,14 @@ final class ShowcaseResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'          => (string) $this->item_id,
-            'product_id'  => (string) $this->product_id,
-            'title'       => (string) $this->title,
-            'description' => $this->description ? (string) $this->description : null,
-            'media_url'   => $this->media_url ? (string) $this->media_url : null,
-            'content'     => $this->content ? (string) $this->content : null,
-            'sort_order'  => (int) $this->sort_order,
+            'id'           => (string) $this->item_id,
+            'product_id'   => (string) $this->product_id,
+            'title'        => (string) $this->title,
+            'description'  => $this->description ? (string) $this->description : null,
+            'media_url'    => $this->media_url ? (string) $this->media_url : null,
+            'publish_date' => $this->publish_date ? (string) $this->publish_date : null,
+            'content'      => $this->content ? (string) $this->content : null,
+            'sort_order'   => (int) $this->sort_order,
         ];
     }
 }

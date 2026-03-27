@@ -23,6 +23,7 @@ final class UpdateShowcaseRequest extends FormRequest
             'items.*.title'       => ['required', 'string', 'max:255'],
             'items.*.description' => ['nullable', 'string', 'max:255'],
             'items.*.mediaUrl'    => ['nullable', 'string', 'url', 'max:2048'],
+            'items.*.publishDate' => ['nullable', 'string', 'date'],
             'items.*.content'     => ['nullable', 'string', 'max:65535'],
             'items.*.sortOrder'   => ['required', 'integer', 'min:0'],
         ];

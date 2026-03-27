@@ -20,7 +20,7 @@ final class ValidateProductExists
      */
     public function handle(object $payload, Closure $next): mixed
     {
-        $product = Product::query()->find($payload->product_id);
+        $product = Product::query()->find($payload->productId);
 
         throw_if(! $product, ModelNotFoundException::class, 'Product not found.');
 

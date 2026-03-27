@@ -14,8 +14,10 @@ final class SyncPreferencesItems
 {
     public function handle(PreferencesPayload $payload, Closure $next): mixed
     {
-        $sections = [];
-        $items    = [];
+        $sections   = [];
+        $items      = [];
+        $sectionIds = [];
+        $itemIds    = [];
 
         foreach ($payload->sections as $section) {
             $sections[] = [
@@ -25,6 +27,8 @@ final class SyncPreferencesItems
                 'sort_order' => $section->sortOrder,
             ];
 
+            $sectionIds[] = $section->id;
+
             foreach ($section->items as $item) {
                 $items[] = [
                     'id'                    => $item->id,
@@ -33,12 +37,23 @@ final class SyncPreferencesItems
                     'content'               => $item->content,
                     'sort_order'            => $item->sortOrder,
                 ];
+                $itemIds[] = $item->id;
             }
         }
 
-        // NOTE: As requested by the user, this endpoint handles PARTIAL UPDATES like Showcase.
-        // It does NOT delete sections or items missing from the payload.
-        DB::transaction(function () use ($sections, $items): void {
+        DB::transaction(function () use ($sections, $items, $sectionIds, $itemIds, $payload): void {
+            PreferenceSection::query()
+                ->where('product_id', $payload->productId)
+                ->whereNotIn('id', $sectionIds)
+                ->delete();
+
+            PreferenceItem::query()
+                ->whereHas('section', function (mixed $query) use ($payload): void {
+                    $query->where('product_id', $payload->productId);
+                })
+                ->whereNotIn('id', $itemIds)
+                ->delete();
+
             if ($sections !== []) {
                 PreferenceSection::query()->upsert(
                     $sections,

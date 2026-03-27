@@ -15,6 +15,7 @@ use App\Processes\Product\UpdateProductProcess;
 use App\Queries\Product\GetAllProducts;
 use App\Queries\Product\GetProductById;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 final class ProductController extends ApiController
 {
@@ -22,17 +23,28 @@ final class ProductController extends ApiController
         private readonly CreateProductProcess $createProductProcess,
         private readonly UpdateProductProcess $updateProductProcess,
         private readonly DeleteProductProcess $deleteProcess,
-        private readonly GetAllProducts $getAllProducts,
     ) {}
 
     /**
      * Get all products
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $products = $this->getAllProducts->execute();
+        $products = (new GetAllProducts(
+            pageSize: (int) $request->get('PageSize', 15),
+            pageNumber: (int) $request->get('PageNumber', 1),
+            searchTerm: (string) $request->get('SearchTerm'),
+        ))->execute();
 
-        return $this->success(ProductResource::collection($products), 'Products retrieved successfully');
+        $payload = [
+            'name'  => 'Products',
+            'items' => ProductResource::collection($products),
+        ];
+
+        return $this->success(
+            $payload,
+            'Products retrieved successfully'
+        );
     }
 
     /**
@@ -55,7 +67,9 @@ final class ProductController extends ApiController
 
         $result = $this->createProductProcess->run($payload);
 
-        return $this->created(new ProductResource($result->product), 'Product created successfully');
+        $product = new ProductResource($result->product);
+
+        return $this->created($product, 'Product created successfully');
     }
 
     /**
@@ -67,8 +81,8 @@ final class ProductController extends ApiController
     ): JsonResponse {
         $payload = ProductData::from([
             ...$request->validated(),
-            'id'         => $id,
-            'product_id' => $id, // Required by ValidateProductExists
+            'id'        => $id,
+            'productId' => $id, // Required by ValidateProductExists
         ]);
 
         $result  = $this->updateProductProcess->run($payload);
@@ -83,8 +97,8 @@ final class ProductController extends ApiController
     public function destroy(string $id): JsonResponse
     {
         $payload = (object) [
-            'id'         => $id,
-            'product_id' => $id, // Required by ValidateProductExists
+            'id'        => $id,
+            'productId' => $id, // Required by ValidateProductExists
         ];
 
         $this->deleteProcess->run($payload);

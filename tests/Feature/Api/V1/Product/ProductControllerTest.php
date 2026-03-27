@@ -17,8 +17,9 @@ use function Pest\Laravel\putJson;
 uses(RefreshDatabase::class);
 
 beforeEach(function (): void {
-    $this->user = User::factory()->create();
-    actingAs($this->user);
+    /** @var User $user */
+    $user = User::factory()->create();
+    actingAs($user);
 });
 
 it('can list all products ordered by name', function (): void {
@@ -28,10 +29,10 @@ it('can list all products ordered by name', function (): void {
 
     getJson('/api/v1/products')
         ->assertSuccessful()
-        ->assertJsonCount(3, 'data')
-        ->assertJsonPath('data.0.name', 'A Product')
-        ->assertJsonPath('data.1.name', 'M Product')
-        ->assertJsonPath('data.2.name', 'Z Product');
+        ->assertJsonCount(3, 'data.data')
+        ->assertJsonPath('data.data.0.name', 'A Product')
+        ->assertJsonPath('data.data.1.name', 'M Product')
+        ->assertJsonPath('data.data.2.name', 'Z Product');
 });
 
 it('can show a product by id', function (): void {

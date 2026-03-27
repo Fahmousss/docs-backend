@@ -35,6 +35,7 @@ return [
         'X-API-Version-Status',
         'Deprecation',
         'Sunset',
+        'X-Pagination',
     ],
 
     'max_age' => 86400, // 24 hours

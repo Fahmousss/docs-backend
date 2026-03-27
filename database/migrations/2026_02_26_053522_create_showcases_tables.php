@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('description')->nullable();
             $table->string('media_url')->nullable();
+            $table->date('publish_date')->nullable();
             $table->text('content')->nullable();
             $table->integer('sort_order')->index();
             $table->timestamps();
@@ -34,8 +35,11 @@ return new class extends Migration
                     title,
                     description,
                     media_url,
+                    publish_date,
                     content,
-                    sort_order
+                    sort_order,
+                    created_at,
+                    updated_at
                 FROM showcase_items;
             SQL);
 
@@ -50,8 +54,11 @@ return new class extends Migration
                     title,
                     description,
                     media_url,
+                    publish_date,
                     content,
-                    sort_order
+                    sort_order,
+                    created_at,
+                    updated_at
                 FROM showcase_items;
             SQL);
         }

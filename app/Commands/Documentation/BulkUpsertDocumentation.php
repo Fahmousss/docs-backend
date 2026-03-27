@@ -19,9 +19,12 @@ final class BulkUpsertDocumentation
      */
     public function handle(DocumentationPayload $payload, Closure $next): mixed
     {
-        $sections = [];
-        $menus    = [];
-        $submenus = [];
+        $sections   = [];
+        $menus      = [];
+        $submenus   = [];
+        $sectionIds = [];
+        $menuIds    = [];
+        $submenuIds = [];
 
         foreach ($payload->sections as $section) {
             $sections[] = [
@@ -30,6 +33,7 @@ final class BulkUpsertDocumentation
                 'section_name' => $section->name,
                 'sort_order'   => $section->sortOrder,
             ];
+            $sectionIds[] = $section->id;
 
             foreach ($section->menus as $menu) {
                 $menus[] = [
@@ -38,6 +42,7 @@ final class BulkUpsertDocumentation
                     'menu_name'  => $menu->name,
                     'sort_order' => $menu->sortOrder,
                 ];
+                $menuIds[] = $menu->id;
 
                 foreach ($menu->submenus as $submenu) {
                     $submenus[] = [
@@ -47,11 +52,31 @@ final class BulkUpsertDocumentation
                         'content'      => $submenu->content,
                         'sort_order'   => $submenu->sortOrder,
                     ];
+                    $submenuIds[] = $submenu->id;
                 }
             }
         }
 
-        DB::transaction(function () use ($sections, $menus, $submenus): void {
+        DB::transaction(function () use ($sections, $menus, $submenus, $sectionIds, $menuIds, $submenuIds, $payload): void {
+
+            Section::query()
+                ->where('product_id', $payload->productId)
+                ->whereNotIn('id', $sectionIds)
+                ->delete();
+
+            Menu::query()
+                ->whereHas('section', function (mixed $query) use ($payload): void {
+                    $query->where('product_id', $payload->productId);
+                })
+                ->whereNotIn('id', $menuIds)
+                ->delete();
+
+            Submenu::query()
+                ->whereHas('menu.section', function (mixed $query) use ($payload): void {
+                    $query->where('product_id', $payload->productId);
+                })
+                ->whereNotIn('id', $submenuIds)
+                ->delete();
 
             if ($sections !== []) {
                 Section::query()->upsert($sections, ['id'], ['section_name', 'sort_order', 'product_id']);

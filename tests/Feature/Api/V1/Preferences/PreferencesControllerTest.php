@@ -88,7 +88,7 @@ it('updates and retrieves product preferences setup', function (): void {
         ->assertJsonPath('data.items.1.item_name', 'Legal');
 });
 
-it('performs a partial update without deleting missing sections or items', function (): void {
+it('performs a full update and deletes missing sections or items', function (): void {
     $product = Product::factory()->create();
 
     $sectionId1 = (string) Str::uuid();
@@ -133,13 +133,13 @@ it('performs a partial update without deleting missing sections or items', funct
         ],
     ])->assertOk();
 
-    // Verify both sections still exist
-    assertDatabaseHas('preference_sections', ['id' => $sectionId1, 'name' => 'Section 1']);
+    // Verify section 1 is deleted and section 2 still exists
+    assertDatabaseMissing('preference_sections', ['id' => $sectionId1]);
     assertDatabaseHas('preference_sections', ['id' => $sectionId2, 'name' => 'Section 2 - Updated']);
 
-    // Verify all 3 items exist
-    assertDatabaseHas('preference_items', ['id' => $itemId1, 'item_name' => 'Tab 1']);
-    assertDatabaseHas('preference_items', ['id' => $itemId2, 'item_name' => 'Tab 2']);
+    // Verify items from section 1 and the old item from section 2 are deleted, but new item exists
+    assertDatabaseMissing('preference_items', ['id' => $itemId1]);
+    assertDatabaseMissing('preference_items', ['id' => $itemId2]);
     assertDatabaseHas('preference_items', ['id' => $newItemId, 'item_name' => 'Tab 2 New']);
 });
 

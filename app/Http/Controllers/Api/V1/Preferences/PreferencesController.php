@@ -22,6 +22,7 @@ final class PreferencesController extends ApiController
      * Get product preferences sections
      *
      * @unauthenticated
+     *
      * @response array{ success: bool, message: string, data: array{ items: PreferencesResource[] } }
      */
     public function show(string $productId): JsonResponse
@@ -29,6 +30,7 @@ final class PreferencesController extends ApiController
         $preferences = (new GetProductPreferences($productId))->execute();
 
         return $this->success([
+            'name'  => 'Preferences',
             'items' => PreferencesResource::collection($preferences)->resolve(),
         ], 'Preferences retrieved successfully');
     }

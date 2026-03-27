@@ -22,6 +22,7 @@ final class BlogController extends ApiController
      * Get product blog sections
      *
      * @unauthenticated
+     *
      * @response array{ success: bool, message: string, data: array{ sections: BlogResource[] } }
      */
     public function show(string $productId): JsonResponse
@@ -29,6 +30,7 @@ final class BlogController extends ApiController
         $blog = (new GetProductBlog($productId))->execute();
 
         return $this->success([
+            'name'     => 'Blog',
             'sections' => BlogResource::collection($blog)->resolve(),
         ], 'Blog retrieved successfully');
     }

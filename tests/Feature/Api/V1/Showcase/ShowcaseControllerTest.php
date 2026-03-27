@@ -80,7 +80,7 @@ it('updates and retrieves showcase items', function (): void {
         ->assertJsonPath('data.items.1.title', 'Feature 2');
 });
 
-it('performs a partial update without deleting missing items', function (): void {
+it('performs a full update and deletes missing items', function (): void {
     $product = Product::factory()->create();
 
     $itemId1 = (string) Str::uuid();
@@ -101,8 +101,8 @@ it('performs a partial update without deleting missing items', function (): void
         ],
     ])->assertOk();
 
-    // Verify both still exist (partial update behavior)
-    assertDatabaseHas('showcase_items', ['id' => $itemId1, 'title' => 'Initial 1']);
+    // Verify itemId1 was deleted and itemId2 was updated
+    assertDatabaseMissing('showcase_items', ['id' => $itemId1]);
     assertDatabaseHas('showcase_items', ['id' => $itemId2, 'title' => 'Updated 2']);
 });
 

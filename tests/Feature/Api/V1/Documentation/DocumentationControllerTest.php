@@ -67,7 +67,7 @@ it('updates documentation with nested payload via bulk upsert', function (): voi
         ->assertJsonPath('data.items.0.submenu_name', 'Welcome');
 });
 
-it('performs a partial update without deleting missing items', function (): void {
+it('performs a full update and deletes missing items', function (): void {
     $product = Product::factory()->create();
 
     // First create tree
@@ -99,11 +99,10 @@ it('performs a partial update without deleting missing items', function (): void
         'sections' => [],
     ])->assertOk();
 
-    // Expect GET to still return the items since it's a partial update
+    // Expect GET to return empty items since missing items are deleted
     getJson(sprintf('/api/v1/products/%s/docs', $product->id))
         ->assertOk()
-        ->assertJsonCount(1, 'data.items')
-        ->assertJsonPath('data.items.0.section_name', 'A');
+        ->assertJsonCount(0, 'data.items');
 });
 
 it('returns 422 when sections key is missing entirely', function (): void {

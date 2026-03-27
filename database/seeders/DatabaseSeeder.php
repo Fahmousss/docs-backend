@@ -19,6 +19,10 @@ final class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        Product::factory()->create([
+            'id'   => '123e4567-e89b-12d3-a456-426655440000',
+            'name' => 'Test Product',
+        ]);
         Product::factory(10)->has(ShowcaseItem::factory(10))->create();
         User::factory()->create([
             'name'     => 'Test User',

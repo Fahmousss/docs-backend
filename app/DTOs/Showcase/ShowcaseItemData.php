@@ -13,6 +13,7 @@ final class ShowcaseItemData extends Data
         public readonly string $title,
         public readonly ?string $description,
         public readonly ?string $mediaUrl,
+        public readonly ?string $publishDate,
         public ?string $content,
         public readonly int $sortOrder,
     ) {}

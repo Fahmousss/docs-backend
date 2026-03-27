@@ -76,7 +76,7 @@ final class AppServiceProvider extends ServiceProvider
             'ui' => [
                 'title'        => 'API v1',
                 'theme'        => 'system',
-                'hide_try_it'  => true,
+                'hide_try_it'  => false,
                 'hide_schemas' => true,
             ],
         ]);

@@ -15,7 +15,7 @@ final class RefreshBlogView
         $response = $next($payload);
 
         if (DB::getDriverName() === 'pgsql') {
-            DB::statement('REFRESH MATERIALIZED VIEW CONCURRENTLY product_blog_view');
+            DB::statement('REFRESH MATERIALIZED VIEW product_blog_view');
         }
 
         return $response;

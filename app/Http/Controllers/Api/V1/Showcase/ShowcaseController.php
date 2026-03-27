@@ -11,6 +11,7 @@ use App\Http\Resources\Showcase\ShowcaseResource;
 use App\Processes\Showcase\UpdateShowcaseProcess;
 use App\Queries\Showcase\GetProductShowcase;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 final class ShowcaseController extends ApiController
 {
@@ -22,6 +23,7 @@ final class ShowcaseController extends ApiController
      * Get product showcase sections
      *
      * @unauthenticated
+     *
      * @response array{ success: bool, message: string, data: array{ items: ShowcaseResource[] } }
      */
     public function show(string $productId): JsonResponse
@@ -29,6 +31,7 @@ final class ShowcaseController extends ApiController
         $showcaseItems = (new GetProductShowcase($productId))->execute();
 
         return $this->success([
+            'name'  => 'Showcase',
             'items' => ShowcaseResource::collection($showcaseItems)->resolve(),
         ], 'Showcase retrieved successfully');
     }
@@ -42,6 +45,8 @@ final class ShowcaseController extends ApiController
             'productId' => $productId,
             'items'     => $request->validated('items'),
         ]);
+
+        Log::info('Showcase payload', ['payload' => $payload]);
 
         $this->process->run($payload);
 

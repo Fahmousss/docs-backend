@@ -12,7 +12,7 @@ use stdClass;
 final class GetProductById extends Query
 {
     public function __construct(
-        private readonly string $id
+        private string $id
     ) {}
 
     public function execute(): stdClass
