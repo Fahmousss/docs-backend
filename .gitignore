@@ -32,3 +32,9 @@ CLAUDE.md
 
 # SQLite databases
 database/*.sqlite
+.ai/
+.claude/
+.idea/
+.junie/
+boost.json
+.mcp.json
