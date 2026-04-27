@@ -73,7 +73,7 @@ Route::apiResource('products', ProductController::class)
 // -------------------------------------------------------------------------
 // Protected Routes
 // -------------------------------------------------------------------------
-Route::middleware(['log.api'])->group(function (): void {
+Route::middleware(['auth:sanctum', 'log.api'])->group(function (): void {
     Route::post('logout', LogoutController::class)->name('api.v1.logout');
     Route::get('me', MeController::class)->name('api.v1.me');
 
